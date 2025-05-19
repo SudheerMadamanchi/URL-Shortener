@@ -18,7 +18,9 @@ class ShortenUrlRequest(BaseModel):
     @field_validator("main_url", mode="after")
     def validate_http_url(cls, value: str):
         url_regex = re.compile(
-            r"^(https?://)?(www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6}(/[\w\-./?%&=]*)?$",
+            r"^(https?://)"  # Protocol (http or https)
+            r"((www\.)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})"  # Domain
+            r"(/[^\s]*)?$"  # Path and query parameters
         )
         if not url_regex.match(value):
             raise ValueError("Invalid url")

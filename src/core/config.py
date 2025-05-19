@@ -19,7 +19,7 @@ app_config = AppConfig()
 
 class DatabaseConfig(BaseConfig):
     username: str = "postgres"
-    password: str = "postgres"
+    password: str = "admin"
     database: str = "url_shortener"
     host: str = "localhost"
     port: int = 5432

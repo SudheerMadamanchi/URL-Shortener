@@ -1,5 +1,5 @@
 from sqlmodel import Field
-
+from datetime import datetime
 from utils.common_models import BaseModel
 
 
@@ -9,4 +9,6 @@ class ShortenedUrl(BaseModel, table=True):
     short_url: str = Field(index=True)
     active: bool = Field(default=True)
     expired: bool = Field(default=False)
-    expires_at: float | None = Field()
+    created_at: datetime = Field(default_factory=datetime.utcnow)  # Ensure datetime format
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+    expires_at: datetime | None = Field(default=None)  # Ensure datetime format

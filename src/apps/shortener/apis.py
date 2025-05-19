@@ -1,4 +1,4 @@
-from aioredis import Redis
+from redis.asyncio import Redis
 
 from sqlmodel.ext.asyncio.session import AsyncSession
 

@@ -4,7 +4,7 @@ import string
 
 from datetime import datetime, timedelta
 
-from aioredis import Redis
+from redis.asyncio import Redis
 
 from fastapi import HTTPException, status
 
@@ -28,10 +28,9 @@ class ShortenerController:
         shortened_url = ShortenedUrl(
             main_url=payload.main_url,
             short_url=short_url,
-            expires_at=datetime.timestamp(
-                datetime.utcnow()
-                + timedelta(hours=payload.expiration_time_month.value * 730),
-            ),
+            created_at=datetime.utcnow(),  # Set created_at explicitly
+            updated_at=datetime.utcnow(),  # Set updated_at explicitly
+            expires_at=datetime.utcnow() + timedelta(hours=payload.expiration_time_month.value * 730),
         )
         db.add(shortened_url)
         await db.commit()
@@ -60,14 +59,17 @@ class ShortenerController:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="shortened url not found",
             )
-        if shortened_url.expires_at < datetime.timestamp(datetime.utcnow()):
+        
+        if shortened_url.expires_at and shortened_url.expires_at < datetime.utcnow():
             shortened_url.expired = True
+            shortened_url.updated_at = datetime.utcnow()
             db.add(shortened_url)
             await db.commit()
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
-                detail="shortened url not found",
+                detail="Shortened URL has expired",
             )
+        
         main_url = shortened_url.main_url
 
         await redis.set(
