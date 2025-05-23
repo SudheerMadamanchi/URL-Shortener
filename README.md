@@ -44,7 +44,7 @@ To run the project locally, follow these steps:
 - Redis
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Mohsen-Khodabakhshi/url-shortener.git
+   git clone https://github.com/SudheerMadamanchi/URL-Shortener.git
    cd url-shortener/src
 2. Setup configuration file:
     ```bash
