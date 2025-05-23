@@ -3,7 +3,7 @@
 A simple but fast URL shortener built using FastAPI, PostgreSQL, and Redis.
 
 <p align="center">
-    <img src="https://raw.githubusercontent.com/Mohsen-Khodabakhshi/url-shortener/main/assets/system-design.jpg">
+    <img src="https://raw.githubusercontent.com/SudheerMadamanchi/url-shortener/main/assets/system-design.jpg">
 </p>
 
 ## Load/Stress Test Result
@@ -26,7 +26,7 @@ To run the project locally, follow these steps:
 - Docker Compose
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Mohsen-Khodabakhshi/url-shortener.git
+   git clone https://github.com/SudheerMadamanchi/url-shortener.git
    cd url-shortener
 
 2. Setup configuration file:
