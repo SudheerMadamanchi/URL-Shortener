@@ -1,9 +1,9 @@
 from pydantic import BaseModel, field_validator
-
+from datetime import datetime
 from apps.shortener.enums import ExpirationTimeMonthEnum
 
 import re
-
+  
 
 class ShortenUrlRequest(BaseModel):
     main_url: str
@@ -30,3 +30,6 @@ class ShortenUrlRequest(BaseModel):
 class ShortenUrlResponse(BaseModel):
     main_url: str
     short_url: str
+    created_at: str
+    updated_at: str
+    expires_at: str

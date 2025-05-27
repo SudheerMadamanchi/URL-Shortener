@@ -7,6 +7,11 @@ from middlewares.response_schema import response_schema_middleware
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"Hello":"World"}
+
+
 response_schema_middleware(app)
 
 
@@ -21,7 +26,7 @@ async def shutdown_event() -> None:
 
 
 @app.get("/ping")
-def read_root():
+def ping():
     return "pong!"
 
 

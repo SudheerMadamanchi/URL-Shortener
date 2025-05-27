@@ -2,6 +2,8 @@ import random
 
 import string
 
+import pytz
+
 from datetime import datetime, timedelta
 
 from redis.asyncio import Redis
@@ -20,6 +22,13 @@ class ShortenerController:
     def generate_random_characters(length: int) -> str:
         char_set = string.ascii_letters + string.digits
         return "".join(random.choice(char_set) for _ in range(length))
+    
+    @staticmethod
+    def utc_to_ist(utc_dt):
+        ist = pytz.timezone("Asia/Kolkata")
+        if utc_dt.tzinfo is None:
+            utc_dt = pytz.utc.localize(utc_dt)
+        return utc_dt.astimezone(ist)
 
     async def shorten(
         self, db: AsyncSession, payload: ShortenUrlRequest
@@ -37,6 +46,9 @@ class ShortenerController:
         return ShortenUrlResponse(
             main_url=payload.main_url,
             short_url=short_url,
+            created_at=self.utc_to_ist(shortened_url.created_at).strftime("%Y-%m-%d %H:%M:%S"),
+            updated_at=self.utc_to_ist(shortened_url.updated_at).strftime("%Y-%m-%d %H:%M:%S"),
+            expires_at=self.utc_to_ist(shortened_url.expires_at).strftime("%Y-%m-%d %H:%M:%S"),
         )
 
     @staticmethod

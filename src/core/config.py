@@ -46,7 +46,7 @@ database_config = DatabaseConfig()
 class RedisCpConfig(BaseConfig):
     host: str = "localhost"
     port: int = 6379
-    database: str = "url_shortener"
+    database: int = 0
     max_connections: int = 10
     decode_responses: bool = True
 
