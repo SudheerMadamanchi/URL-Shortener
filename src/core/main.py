@@ -11,6 +11,13 @@ app = FastAPI()
 def read_root():
     return {"Hello":"World"}
 
+# Example: in main.py or core/main.py
+from core.config import database_config, redis_config
+
+print("DB HOST:", database_config.host)
+print("DB USER:", database_config.username)
+print("REDIS HOST:", redis_config.host)
+
 
 response_schema_middleware(app)
 
