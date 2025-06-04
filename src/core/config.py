@@ -1,18 +1,20 @@
+from typing import Optional
 from pydantic_settings import BaseSettings as PydanticBaseConfig
 
 
 class BaseConfig(PydanticBaseConfig):
-    class Config:
-        env_file = ".env"
-
+    model_config = {
+        "env_file": "src/.env"
+    }
 
 class AppConfig(BaseConfig):
     secret_key: str = "secret_key"
     debug: bool = True
 
-    class Config:
-        env_prefix = "APP_"
-
+    model_config = {
+        "env_prefix": "APP_",
+        "env_file": "src/.env"
+    }
 
 app_config = AppConfig()
 
@@ -36,8 +38,10 @@ class DatabaseConfig(BaseConfig):
             f"@{self.host}:{self.port}/{self.database}"
         )
 
-    class Config:
-        env_prefix = "DB_"
+    model_config = {
+        "env_prefix": "DB_",
+        "env_file": "src/.env"
+    }
 
 
 database_config = DatabaseConfig()
@@ -49,13 +53,18 @@ class RedisCpConfig(BaseConfig):
     database: int = 0
     max_connections: int = 10
     decode_responses: bool = True
+    password: Optional[str] = None 
 
     @property
     def redis_url(self) -> str:
-        return f"redis://{self.host}:{self.port}/{self.database}"
+        if self.password is None:
+            return f"redis://{self.host}:{self.port}/{self.database}"
+        else:
+            return f"redis://:{self.password}@{self.host}:{self.port}/{self.database}"
 
-    class Config:
-        env_prefix = "REDIS_"
-
+    model_config = {
+        "env_prefix": "REDIS_",
+        "env_file": "src/.env"
+    }
 
 redis_config = RedisCpConfig()

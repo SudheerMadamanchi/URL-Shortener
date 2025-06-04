@@ -5,19 +5,30 @@ from core.router import initialize_routes
 
 from middlewares.response_schema import response_schema_middleware
 
+from core.config import redis_config 
+
+
 app = FastAPI()
+
+
+from core.config import database_config, redis_config
+
+print("DB CONFIG:")
+print("  username:", database_config.username)
+print("  password:", database_config.password)
+print("  database:", database_config.database)
+print("  host:", database_config.host)
+print("  port:", database_config.port)
+print("REDIS CONFIG:")
+print("  host:", redis_config.host)
+print("  port:", redis_config.port)
+print("  database:", redis_config.database)
+print("  max_connections:", redis_config.max_connections)
+print("  decode_responses:", redis_config.decode_responses)
 
 @app.get("/")
 def read_root():
     return {"Hello":"World"}
-
-# Example: in main.py or core/main.py
-from core.config import database_config, redis_config
-
-print("DB HOST:", database_config.host)
-print("DB USER:", database_config.username)
-print("REDIS HOST:", redis_config.host)
-
 
 response_schema_middleware(app)
 
