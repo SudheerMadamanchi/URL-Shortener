@@ -24,7 +24,6 @@ print("  host:", redis_config.host)
 print("  port:", redis_config.port)
 print("  database:", redis_config.database)
 print("  max_connections:", redis_config.max_connections)
-print("  decode_responses:", redis_config.decode_responses)
 
 @app.get("/")
 def read_root():
