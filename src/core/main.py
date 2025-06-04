@@ -29,10 +29,6 @@ print("  max_connections:", redis_config.max_connections)
 def read_root():
     return {"Hello":"World"}
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 2335dea925d6027c0d8620e56dede32ac8912028
 response_schema_middleware(app)
 
 
