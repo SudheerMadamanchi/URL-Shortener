@@ -55,7 +55,7 @@ class ShortenerController:
         shortened_url = ShortenedUrl(
             main_url=payload.main_url,
             short_url=short_url,
-            custom_domain=payload.custom_domain,
+            custom_domain=domain,
             created_at=datetime.utcnow(),  # Set created_at explicitly
             updated_at=datetime.utcnow(),  # Set updated_at explicitly
             expires_at=datetime.utcnow() + timedelta(hours=payload.expiration_time_month.value * 730),
@@ -65,7 +65,7 @@ class ShortenerController:
         return ShortenUrlResponse(
             main_url=payload.main_url,
             short_url=short_url,
-            custom_domain=payload.custom_domain,
+            custom_domain=domain,
             created_at=self.utc_to_ist(shortened_url.created_at).strftime("%Y-%m-%d %H:%M:%S"),
             updated_at=self.utc_to_ist(shortened_url.updated_at).strftime("%Y-%m-%d %H:%M:%S"),
             expires_at=self.utc_to_ist(shortened_url.expires_at).strftime("%Y-%m-%d %H:%M:%S"),
@@ -87,7 +87,7 @@ class ShortenerController:
             ShortenedUrl.short_url == short_url,
             ShortenedUrl.expired == False,
             ShortenedUrl.active == True,
-            (ShortenedUrl.custom_domain == domain) | (ShortenedUrl.custom_domain == None)
+            (ShortenedUrl.custom_domain == domain) | (ShortenedUrl.custom_domain == None) | (ShortenedUrl.custom_domain == "")
         )
         results = await db.exec(statement)
         shortened_url: ShortenedUrl = results.first()
